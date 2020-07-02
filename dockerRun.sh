@@ -31,11 +31,16 @@ echo "最新构建代码 $SOURCE_PATH/$SERVER_NAME.jar 迁移至 $BASE_PATH ....
  chmod 777 $BASE_PATH/$SERVER_NAME.jar
  echo "迁移完成"
 
+# 停止和删除原来的容器
+if [ -n "$CID" ]; then
+		echo "存在$SERVER_NAME项目容器，CID=$CID,重启$SERVER_NAME容器 ..."
+			sudo docker stop $CID
+			sudo docker rm $CID
+fi
 
 # 构建docker镜像
 echo "构建docker镜像"
 cd $BASE_PATH
-docker build -t $SERVER_NAME .
 if [ -n "$IID" ]; then
         echo "存在$SERVER_NAME镜像，IID=$IID"
         docker rmi -f $IID
@@ -44,24 +49,9 @@ else
         echo "不存在$SERVER_NAME镜像，开始构建镜像"
         docker build -t $SERVER_NAME .
 fi
-
-# 停止和删除原来的容器
-if [ -n "$CID" ]; then
-		echo "存在$SERVER_NAME项目容器，CID=$CID,重启$SERVER_NAME容器 ..."
-			sudo docker stop $CID
-			sudo docker rm $CID
-			# --name zjhy-mes                      容器的名字为zjhy-mes
-      #   -d                                 容器后台运行
-      #   -p 8080:8085                       是做端口映射，此时将服务器中的8080端口映射到容器中的8085(项目中端口配置的是8085)端口
-      #   -v /usr/ms_backend/:/usr/ms_backend/   将主机的/data/javaResource/zjhy-mes/src/main/docker目录挂载到容器的/data/javaResource/zjhy-mes/src/main/docker 目录中（不可少每次本地更新jar包重启容器即可，不用重新构建镜像
-			sudo docker run --name $SERVER_NAME -v $BASE_PATH:$BASE_PATH -d -p 8080:8080 $SERVER_NAME
-		echo "$SERVER_NAME容器重启完成"
-	else
-		echo "不存在$SERVER_NAME容器，docker run创建容器..."
-		  # --name zjhy-mes                      容器的名字为zjhy-mes
-      #   -d                                 容器后台运行
-      #   -p 8080:8085                       是做端口映射，此时将服务器中的8080端口映射到容器中的8085(项目中端口配置的是8085)端口
-      #   -v /usr/ms_backend/:/usr/ms_backend/   将主机的/data/javaResource/zjhy-mes/src/main/docker目录挂载到容器的/data/javaResource/zjhy-mes/src/main/docker 目录中（不可少每次本地更新jar包重启容器即可，不用重新构建镜像
-			sudo docker run --name $SERVER_NAME -v $BASE_PATH:$BASE_PATH -d -p 8080:8080 $SERVER_NAME
-		echo "$SERVER_NAME容器创建完成"
-	fi
+# --name zjhy-mes                      容器的名字为zjhy-mes
+#   -d                                 容器后台运行
+#   -p 8080:8085                       是做端口映射，此时将服务器中的8080端口映射到容器中的8085(项目中端口配置的是8085)端口
+#   -v /usr/ms_backend/:/usr/ms_backend/   将主机的/data/javaResource/zjhy-mes/src/main/docker目录挂载到容器的/data/javaResource/zjhy-mes/src/main/docker 目录中（不可少每次本地更新jar包重启容器即可，不用重新构建镜像
+sudo docker run --name $SERVER_NAME -v $BASE_PATH:$BASE_PATH -d -p 8080:8080 $SERVER_NAME
+echo "$SERVER_NAME容器重启完成"
