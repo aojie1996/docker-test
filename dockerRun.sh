@@ -33,13 +33,18 @@ echo "最新构建代码 $SOURCE_PATH/$SERVER_NAME.jar 迁移至 $BASE_PATH ....
 
 
 # 构建docker镜像
-if [ -n "$IID" ]; then
-        echo "存在$SERVER_NAME镜像，IID=$IID"
-else
-        echo "不存在$SERVER_NAME镜像，开始构建镜像"
-                cd $BASE_PATH
-        docker build -t $SERVER_NAME .
-fi
+echo "构建docker镜像"
+cd $BASE_PATH
+docker build -t $SERVER_NAME .
+#if [ -n "$IID" ]; then
+#        echo "存在$SERVER_NAME镜像，IID=$IID"
+#        cd $BASE_PATH
+#        docker rm $IID
+#else
+#        echo "不存在$SERVER_NAME镜像，开始构建镜像"
+#                cd $BASE_PATH
+#        docker build -t $SERVER_NAME .
+#fi
 
 # 停止和删除原来的容器
 if [ -n "$CID" ]; then
