@@ -33,7 +33,7 @@ echo "最新构建代码 $SOURCE_PATH/$SERVER_NAME.jar 迁移至 $BASE_PATH ....
 
 # 停止和删除原来的容器
 if [ -n "$CID" ]; then
-		echo "存在$SERVER_NAME项目容器，CID=$CID,重启$SERVER_NAME容器 ..."
+		echo "存在$SERVER_NAME项目容器，CID=$CID,关闭和删除$SERVER_NAME容器 ..."
 			sudo docker stop $CID
 			sudo docker rm $CID
 fi
