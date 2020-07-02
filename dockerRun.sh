@@ -49,9 +49,9 @@ else
         echo "不存在$SERVER_NAME镜像，开始构建镜像"
         docker build -t $SERVER_NAME .
 fi
-# --name zjhy-mes                      容器的名字为zjhy-mes
+# --name docker-test                   容器的名字为docker-test
 #   -d                                 容器后台运行
-#   -p 8080:8085                       是做端口映射，此时将服务器中的8080端口映射到容器中的8085(项目中端口配置的是8085)端口
-#   -v /usr/ms_backend/:/usr/ms_backend/   将主机的/data/javaResource/zjhy-mes/src/main/docker目录挂载到容器的/data/javaResource/zjhy-mes/src/main/docker 目录中（不可少每次本地更新jar包重启容器即可，不用重新构建镜像
+#   -p 8080:8085                       是做端口映射，此时将服务器中的8080端口映射到容器中的8080(：后面为容器内部)端口
+#   -v /usr/ms_backend/:/usr/ms_backend/   将主机的/data/javaResource/docker-test/src/main/docker目录挂载到容器的/data/javaResource/docker-test/src/main/docker 目录中（不可少每次本地更新jar包重启容器即可，不用重新构建镜像
 sudo docker run --name $SERVER_NAME -v $BASE_PATH:$BASE_PATH -d -p 8080:8080 $SERVER_NAME
 echo "$SERVER_NAME容器重启完成"
