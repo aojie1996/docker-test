@@ -1,0 +1,12 @@
+# 定义了版本信息
+version: '1'
+# 定义了服务的配置信息
+services:
+  docker-test:
+    image: docker-test
+    #定义了卷信息，提供给 services 中的 具体容器使用
+    volumes:
+      - /data/javaResource/docker-test/src/main/docker:/data/javaResource/docker-test/src/main/docker
+    ports:
+      - 8080:8080
+    build: /data/javaResource/docker-test/src/main/docker/build
