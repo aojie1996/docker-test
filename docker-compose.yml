@@ -3,6 +3,7 @@ version: "3.3"
 # 定义了服务的配置信息
 services:
   docker-test:
+    container_name: docker-test
     image: docker-test
     #定义了卷信息，提供给 services 中的 具体容器使用
     volumes:
@@ -11,3 +12,7 @@ services:
       - 8080:8080
     # 绝对路径，构建镜像
     build: /data/javaResource/docker-test/src/main/docker
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: "50m"
