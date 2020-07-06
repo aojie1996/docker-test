@@ -1,5 +1,5 @@
 # 定义了版本信息
-version: '1'
+version: "1"
 # 定义了服务的配置信息
 services:
   docker-test:
